@@ -9,4 +9,3 @@ This project gonna be a website to sell and buy new and occasion deck skateboard
 
 ### first page image
 ![img of first page](https://i.ibb.co/09shnw6/Capture-du-2020-08-20-16-03-48.png)
-
