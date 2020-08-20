@@ -7,3 +7,6 @@ This project gonna be a website to sell and buy new and occasion deck skateboard
 - Symfony 5
 - Api plateform
 
+### first page image
+![alt text](https://ibb.co/DMr51qv)
+
