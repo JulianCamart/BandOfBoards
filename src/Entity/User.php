@@ -3,20 +3,19 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+// use App\Entity\Res;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use ResourceId, Timestapable;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -34,9 +33,16 @@ class User implements UserInterface
      */
     private $password;
 
-    public function getId(): ?int
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="vendor")
+     */
+    private $products;
+
+    public function __construct()
     {
-        return $this->id;
+        $this->products = new ArrayCollection();
+
+        $this->createdAt = new \DateTime();
     }
 
     public function getEmail(): ?string
@@ -110,5 +116,36 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setVendor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getVendor() === $this) {
+                $product->setVendor(null);
+            }
+        }
+
+        return $this;
     }
 }
