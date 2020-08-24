@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @Apiresource()
  */
 class Product
 {
@@ -62,6 +65,7 @@ class Product
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+
     }
 
     public function getName(): ?string
