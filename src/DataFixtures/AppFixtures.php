@@ -11,6 +11,7 @@ use App\Entity\Product;
 
 class AppFixtures extends Fixture
 {
+    const DEFAULT_USER = ['email' => 'Julian.camart@gmail.com', 'password' => 'password'];
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -22,7 +23,17 @@ class AppFixtures extends Fixture
     {
         $fake = Factory::create();
 
-        //List of possibles product values
+
+        $defaultUser = new User();
+        $passHash = $this->encoder->encodePassword($defaultUser, self::DEFAULT_USER['password']);
+
+        $defaultUser->setEmail(self::DEFAULT_USER['email'])
+            ->setPassword($passHash);
+
+        $manager->persist($defaultUser);
+
+
+        //List of possibles products values
         $arrayOfName = ["à vendre", "d'occasion", "pas cher", "de collection", "en bon etat"];
         $arrayOfBrand = ["Almost", "Antiz Skateboards", "Anti Hero", "Baker", "Blind", "Creature", "Chocolate", "Deathwish", "DGK Skateboards", "Element", "Enjoi", "Flip", "Girl", "Jart Skateboards", "PALACE SKATEBOARDS", "Plan B", "Polar Skateboards", "Primitive"];
         $arrayOfModel = ["Ingot", "Team Bold", "HKD Faded", "Sanbongi Queen", "Provost Nihon", "Crusyberghs Nihon", "Way Dodo", "Jamal Pro", "Lucas Pro", "Gonzales Two Tone", "Oliveira Blast", "Dressen Good Dog", "Classic Dot", "Abstarct", "Chroma", "Team Eyes", "Blue Pills"];
