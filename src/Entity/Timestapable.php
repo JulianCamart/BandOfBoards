@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 trait Timestapable
 {
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"user_read", "user_details_read"})
      */
     private $createdAt;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"user_details_read"})
      */
     private $updatedAt;
 

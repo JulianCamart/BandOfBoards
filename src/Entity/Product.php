@@ -5,11 +5,27 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
- * @Apiresource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"product:read"}}
+ *          },
+ *          "post"
+ *      },
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"product:details:read"}}
+ *          },
+ *          "put",
+ *          "patch",
+ *          "delete"
+ *     }
+ * )
  */
 class Product
 {
@@ -18,47 +34,56 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:details:read", "product:read", "product:details:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"product:read", "product:details:read"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user:details:read", "product:read", "product:details:read"})
      */
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:details:read", "product:read", "product:details:read"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="decimal", precision=3, scale=2)
+     * @Groups({"product:read", "product:details:read"})
      */
     private $size;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"product:details:read"})
      */
     private $gripped;
 
     /**
      * @ORM\Column(type="decimal", precision=4, scale=2)
+     * @Groups({"user:details:read", "product:read", "product:details:read"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"product:details:read"})
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"product:read", "product:details:read"})
      */
     private $vendor;
 

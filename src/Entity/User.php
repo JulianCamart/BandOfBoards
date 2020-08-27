@@ -8,10 +8,24 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+// use ApiPlatform\Core\Annotation\ApiFilter;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"user:read"}}
+ *          },
+ *          "post"
+ *      },
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"user:details:read"}}
+ *          }
+ *     }
+ * )
  */
 class User implements UserInterface
 {
@@ -19,6 +33,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read", "user:details:read", "product:details:read"})
      */
     private $email;
 
@@ -34,7 +49,8 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="vendor")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="vendor", orphanRemoval=true)
+     * @Groups({"user:details:read", "product:details:read"})
      */
     private $products;
 
