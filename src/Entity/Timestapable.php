@@ -8,14 +8,14 @@ trait Timestapable
 {
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"user_read", "user_details_read"})
+     * @Groups({"user:details:read", "product:read", "product:details:read"})
      */
     private $createdAt;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"user_details_read"})
+     * @Groups({"product:details:read"})
      */
     private $updatedAt;
 

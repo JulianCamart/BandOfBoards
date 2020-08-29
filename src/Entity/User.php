@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
-// use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,6 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          }
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
  */
 class User implements UserInterface
 {
@@ -50,9 +53,15 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="vendor", orphanRemoval=true)
-     * @Groups({"user:details:read", "product:details:read"})
+     * @Groups({"user:details:read"})
      */
     private $products;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     * @Groups({"user:details:read"})
+     */
+    private $status;
 
     public function __construct()
     {
@@ -161,6 +170,18 @@ class User implements UserInterface
                 $product->setVendor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

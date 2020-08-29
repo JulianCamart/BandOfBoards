@@ -6,6 +6,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\ProductUpdate;
 
 
 /**
@@ -21,7 +22,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "get"={
  *              "normalization_context"={"groups"={"product:details:read"}}
  *          },
- *          "put",
+ *          "put_update"={
+ *              "method"="PUT",
+ *              "path"="/products/{id}/updated-at",
+ *              "controller"=ProductUpdate::class      
+ *          },
  *          "patch",
  *          "delete"
  *     }

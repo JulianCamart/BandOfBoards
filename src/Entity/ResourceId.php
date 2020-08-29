@@ -10,7 +10,7 @@ trait ResourceId
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"user_read", "user_details_read"})
+     * @Groups({"user:read", "user:details:read", "product:read", "product:details:read"})
      */
     private $id;
 
