@@ -25,7 +25,7 @@ use App\Controller\ProductUpdate;
  *          },
  *          "put_update"={
  *              "method"="PUT",
- *              "path"="/products/{id}/",
+ *              "path"="/products/{id}",
  *              "controller"=ProductUpdate::class
  *          },
  *          "patch",
