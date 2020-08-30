@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\ProductUpdate;
 
@@ -24,8 +25,8 @@ use App\Controller\ProductUpdate;
  *          },
  *          "put_update"={
  *              "method"="PUT",
- *              "path"="/products/{id}/updated-at",
- *              "controller"=ProductUpdate::class      
+ *              "path"="/products/{id}/",
+ *              "controller"=ProductUpdate::class
  *          },
  *          "patch",
  *          "delete"
@@ -194,12 +195,12 @@ class Product
         return $this;
     }
 
-    public function getVendor(): ?User
+    public function getVendor(): UserInterface
     {
         return $this->vendor;
     }
 
-    public function setVendor(?User $vendor): self
+    public function setVendor(UserInterface $vendor): self
     {
         $this->vendor = $vendor;
 

@@ -70,7 +70,7 @@ class User implements UserInterface
     {
         $this->products = new ArrayCollection();
 
-        // $this->status = false;
+        $this->status = NULL;
 
         $this->createdAt = new \DateTime();
     }
