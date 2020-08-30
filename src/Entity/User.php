@@ -25,7 +25,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     itemOperations={
  *          "get"={
  *              "normalization_context"={"groups"={"user:details:read"}}
- *          }
+ *          },
+ *          "put",
+ *          "patch",
+ *          "delete"
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
@@ -58,7 +61,7 @@ class User implements UserInterface
     private $products;
 
     /**
-     * @ORM\Column(type="boolean", options={"default" : false})
+     * @ORM\Column(type="boolean", nullable=true, options={"default" : NULL})
      * @Groups({"user:details:read"})
      */
     private $status;
@@ -66,6 +69,8 @@ class User implements UserInterface
     public function __construct()
     {
         $this->products = new ArrayCollection();
+
+        // $this->status = false;
 
         $this->createdAt = new \DateTime();
     }
